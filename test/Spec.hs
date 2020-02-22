@@ -5,40 +5,41 @@ import Data.Foldable     (for_)
 import Test.Hspec        (Spec, describe, it, shouldBe)
 import Test.Hspec.Runner (configFastFail, defaultConfig, hspecWith)
 
-import HelloWorld (hello)
+import UniversalMachine (
+    Tape(..)
+    , Number(..)
+    , Inst(..)
+    , Point(..)
+    , P(..)
+    , readHead
+    , moveLeft
+    , moveRight
+    )
 
 main :: IO ()
 main = hspecWith defaultConfig {configFastFail = True} specs
 
 specs :: Spec
-specs = describe "hello" $ for_ cases test
+specs = describe "MoveTapeTest" $ for_ cases test0
   where
 
-    test Case{..} = it description assertion
+    test0 MoveTapeTest{..} = it description assertion
       where
         assertion  = expression `shouldBe` expected
-        expression = hello a b
+        expression = readHead tape
 
-data Case = Case { description :: String
-                 , a     :: String
-                 , b     :: String
-                 , expected    :: String
+data MoveTapeTest = MoveTapeTest { description :: String
+                 , tape     :: Tape Number
+                 , expected    :: Number
                  }
 
-cases :: [Case]
-cases = [ Case { description = "empty"
-               , a     = ""
-               , b     = ""
-               , expected    = ""
+cases :: [MoveTapeTest]
+cases = [ MoveTapeTest { description = "Element 0"
+               , tape     = Tape [] (Successor Zero) []
+               , expected    = (Successor Zero)
                }
-        , Case { description = "two As"
-               , a     = "A"
-               , b     = "A"
-               , expected    = "AA"
-               }
-        , Case { description = "with spaces"
-               , a     = "G  "
-               , b     = "T"
-               , expected    = "G  T"
+        , MoveTapeTest { description = "Element 1"
+               , tape     = Tape [Zero] (Successor (Successor Zero)) [Zero]
+               , expected    = (Successor (Successor Zero))
                }
         ]

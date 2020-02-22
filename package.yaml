@@ -12,7 +12,7 @@ dependencies:
 - base >= 4.7 && < 5
 
 library:
-  exposed-modules: HelloWorld
+  exposed-modules: UniversalMachine
   source-dirs: src
   ghc-options: -Wall
 
