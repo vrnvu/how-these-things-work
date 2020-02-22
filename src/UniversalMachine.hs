@@ -1,5 +1,3 @@
-{-# LANGUAGE FlexibleInstances #-}
-
 module UniversalMachine (
     Tape(..)
     , Number(..)
@@ -37,9 +35,6 @@ instance Point Number where
 
 instance Point Inst where
     point = Halt
-
-instance Point String where
-    point = ""
 
 {-
     Halt: Stop the machine
