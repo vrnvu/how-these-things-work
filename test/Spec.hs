@@ -10,7 +10,7 @@ import UniversalMachine (
     , Number(..)
     , Inst(..)
     , Point(..)
-    , P(..)
+    , Machine(..)
     , readHead
     , moveLeft
     , moveRight

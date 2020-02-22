@@ -5,7 +5,7 @@ module UniversalMachine (
     , Number(..)
     , Inst(..)
     , Point(..)
-    , P(..)
+    , Machine(..)
     , readHead
     , moveLeft
     , moveRight
@@ -20,6 +20,14 @@ instance Eq Number where
     (==) Zero (Successor _) = False
     (==) (Successor _) Zero = False
     (==) (Successor a) (Successor b) = (==) a b
+
+inc :: Number -> Number
+inc Zero = Successor Zero
+inc (Successor a) = Successor(Successor(a))
+
+dec :: Number -> Number
+dec (Successor a) = a
+dec _ = error "Can not decrement Zero, check condition guard"
 
 class Point a where
     point :: a
@@ -52,16 +60,18 @@ data Inst = MoveLeft
         | ExitLoop
         | Halt
 
-
 data Tape a = Tape [a] a [a]
     deriving (Show)
 
+
 {-
-    P consists of a program tape and a memory tape
+    Machine consists of a program tape and a memory tape
     program consist of a list of instructions
     memory acts as a register of computations
 -}
-data P = P (Tape Inst) (Tape Number)
+type Program = (Tape Inst)
+type Memory = (Tape Number)
+data Machine = Machine Program Memory
 
 readHead :: Point a => Tape a -> a
 readHead (Tape _ a _) = a
