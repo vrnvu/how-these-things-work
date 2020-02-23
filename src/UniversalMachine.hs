@@ -38,10 +38,10 @@ data Inst = MoveLeft
         | EnterLoop
         | ExitLoop
         | Halt
+        deriving (Show, Eq)
 
 data Tape a = Tape [a] a [a]
-    deriving (Show)
-
+    deriving (Show, Eq)
 
 {-
     Machine consists of a program tape and a memory tape
@@ -51,6 +51,7 @@ data Tape a = Tape [a] a [a]
 type Program = (Tape Inst)
 type Memory = (Tape Number)
 data Machine = Machine Program Memory
+    deriving (Show, Eq)
 
 readHead :: Point a => Tape a -> a
 readHead (Tape _ a _) = a
@@ -62,3 +63,10 @@ moveLeft (Tape [] a ys) = Tape [] point (a:ys)
 moveRight :: Point a => Tape a -> Tape a
 moveRight (Tape xs a (y:ys)) = Tape (a:xs) y ys
 moveRight (Tape xs a []) = Tape (a:xs) point []
+
+{-
+read :: State Machine Inst
+read = do
+    (machine, program, _) <- get
+    return (readHead program)
+-}
